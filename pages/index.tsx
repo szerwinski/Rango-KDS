@@ -19,11 +19,11 @@ export default function Home({ menuUrl }: { menuUrl: String }) {
           <img src='/assets/logo_laranja.png' alt='Rango Sem Fila Logo' className='h-[200px]' />
           <FB fd='column' className='px-4 py-10 rounded-xl gap-5 bg-background2 min-w-[280px] w-[30%] mt-10'>
             <FB fd='row' className='gap-3' w='w-full'>
-              <Button className={classNames('w-full py-[8px] !rounded-[4px]', {
+              <Button className={classNames('w-full py-[8px] !rounded-[4px] sm:px-2', {
                 'bg-primary': loginType === 'operator',
                 'bg-background': loginType === 'admin',
               })} classNameText={loginType === 'operator' ? 'text-[white]' : 'text-primary'} onClick={() => setLoginType('operator')}>Operador</Button>
-              <Button className={classNames('w-full py-[8px] !rounded-[4px]', {
+              <Button className={classNames('w-full py-[8px] !rounded-[4px] sm:px-2', {
                 'bg-primary': loginType === 'admin',
                 'bg-background': loginType === 'operator',
               })} classNameText={loginType === 'admin' ? 'text-[white]' : 'text-primary'} onClick={() => setLoginType('admin')}>Administrador</Button>
