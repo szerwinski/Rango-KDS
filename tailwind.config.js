@@ -40,11 +40,13 @@ module.exports = {
           "100%": { transform: "rotate(0deg)" },
         },
       },
-      animation: {
-      },
+      animation: {},
     },
     colors: {
       primary: "#F58538",
+      background: "#161925",
+      background2: "#1F2333",
+      darkborder: "#414968",
     },
     fontSize: {
       dh1: [
