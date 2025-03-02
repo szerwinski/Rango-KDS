@@ -9,6 +9,8 @@ import axios, { Canceler } from 'axios'
 import Button from '../components/buttons/button'
 
 export default function Home({ menuUrl }: { menuUrl: String }) {
+  var [email, setEmail] = useState('')
+  var [password, setPassword] = useState('')
   var [loginType, setLoginType] = useState<'operator' | 'admin'>('admin')
 
 
@@ -31,14 +33,22 @@ export default function Home({ menuUrl }: { menuUrl: String }) {
             <input
               type='text'
               placeholder='Email'
+              onChange={(e) => setEmail(e.target.value)}
               className='w-full py-[8px] text-[white]'
             />
             <input
               type='password'
               placeholder='Senha'
+              onChange={(e) => setPassword(e.target.value)}
               className='w-full py-[8px] text-[white]'
             />
-            <Button prefixImage='assets/login-icon.svg' className='w-full py-[8px] bg-primary !rounded-[4px]'>Conectar</Button>
+            <Button prefixImage='assets/login-icon.svg' className='w-full py-[8px] bg-primary !rounded-[4px]' onClick={() => {
+              console.log({
+                email,
+                password,
+                loginType
+              })
+            }}>Conectar</Button>
           </FB>
         </FB>
       </SectionWrapper>
