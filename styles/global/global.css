@@ -91,8 +91,8 @@ body {
   margin: 0;
   font-size: 16px;
   overflow-x: hidden;
-  overflow-y: scroll;
-  scroll-snap-type: y proximity;
+  /* overflow-y: scroll;
+  scroll-snap-type: y proximity; */
   background: var(--degrade-fundo);
 }
 
