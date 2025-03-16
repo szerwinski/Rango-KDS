@@ -5,7 +5,7 @@ import { P1 } from './typography'
 
 export default function Drawer() {
   return (
-    <FB fd='column' className='w-20 h-full py-4 bg-background2'>
+    <FB fd='column' className='fixed top-0 left-0 w-20 h-[100vh] py-4 bg-background2'>
       <img src='/assets/logo_laranja.png' alt='Rango Sem Fila Logo' className='' />
       <P1 className='text-[white] !text-[12px]'>v1.0.0</P1>
       <Spacer />
