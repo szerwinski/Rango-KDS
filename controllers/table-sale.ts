@@ -11,8 +11,8 @@ export default class TableSaleController {
       "&populate[0]=table&populate[1]=cashier&populate[2]=payment&populate[3]=payment.paymentList&populate[4]=data&populate[5]=data.options&populate[6]=data.menu_item";
     const tableSale = await axios.get(URL);
 
-    if (tableSale.data) {
-      return tableSale.data;
+    if (tableSale.data && tableSale.data.length > 0) {
+      return tableSale.data[0];
     }
 
     return null;
