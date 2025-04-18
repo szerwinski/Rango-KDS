@@ -16,9 +16,14 @@ import Loading from "../components/loading";
 
 export default function Kds() {
   const user = useUser();
+  function getUpdatedAt() {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today.toISOString();
+  }
   const { tableSales, loading, error } = useTableSalesSubscription(
     user?.restaurant.id ?? 0,
-    new Date().toISOString(),
+    getUpdatedAt(),
   );
 
   return (
