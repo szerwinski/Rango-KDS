@@ -30,7 +30,7 @@ export default function OrderKdsCell({
         {data.map((item, index) => {
           return (
             <P2 className="px-2 py-1 text-[white]">
-              {item.quantity} x Pedido {item.menu_item.name}
+              {item.quantity} x {item.menu_item.name}
             </P2>
           );
         })}
