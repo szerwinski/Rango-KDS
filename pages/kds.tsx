@@ -56,7 +56,7 @@ export default function Kds() {
                     (Kitchen Display System)
                   </H2>
                 </FB>
-                <div className="grid w-full grid-cols-4 gap-4">
+                <div className="grid w-full grid-cols-4 items-start gap-4">
                   {tableSales?.map((tableSale) => {
                     return (
                       <OrderKdsCell
