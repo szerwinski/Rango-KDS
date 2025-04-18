@@ -29,7 +29,8 @@ export default function Header() {
       <div className="h-6 w-6 rounded-md bg-[black]" />
       <SD w="w-4" />
       <P2 className="text-[white]">
-        Rango Sem Fila - {user?.name ?? "Nome da pessoa"}
+        {user?.restaurant.name ?? "Nome do restaurante"} -{" "}
+        {user?.name ?? "Nome da pessoa"}
       </P2>
       <Spacer />
       <H3 className="text-[white]">{currentTimer}</H3>
