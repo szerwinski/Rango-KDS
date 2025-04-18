@@ -52,8 +52,15 @@ export default function Kds() {
                   </H2>
                 </FB>
                 <div className="grid w-full grid-cols-4 gap-4">
-                  <OrderKdsCell />
-                  <OrderKdsCell />
+                  {tableSales?.map((tableSale) => {
+                    return (
+                      <OrderKdsCell
+                        data={tableSale.data}
+                        id={tableSale.id}
+                        nomeMesa={tableSale.id.toString()}
+                      />
+                    );
+                  })}
                 </div>
               </FB>
             )}
