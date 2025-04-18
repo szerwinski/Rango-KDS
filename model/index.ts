@@ -204,3 +204,40 @@ export interface Access {
   id: number;
   access: string;
 }
+
+export interface TableSale {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  data: OrderItem[];
+  status: string;
+  xml: string;
+  payment: Payment;
+  cashier: Cashier;
+}
+
+export interface OrderItem {
+  id: number;
+  menu_item: MenuItem;
+  ifoodPrice: number;
+  note: string;
+  options: Option[];
+  status: string;
+}
+
+export interface Payment {
+  total: number;
+  subtotal: number;
+  discount: number;
+  commission: number;
+  couvert: number;
+  package: number;
+  paymentList: PaymentList[];
+}
+
+export interface PaymentList {
+  id: number;
+  subtotal: number;
+  paymentMethod: string;
+  cardBrand?: string;
+}
