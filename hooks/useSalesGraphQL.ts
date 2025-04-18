@@ -20,10 +20,6 @@ const GET_TABLE_SALE_COMPONENTS = gql`
       created_at
       updated_at
       status
-      table_sales_components(where: { component_type: { _eq: "order.data" } }) {
-        id
-        component_id
-      }
     }
   }
 `;
@@ -69,20 +65,19 @@ export const useTableSalesSubscription = (
     const fetchTableSales = async (tableSales: TableSaleRaw[]) => {
       var newTableSales: TableSale[] = [];
       for (const tableSale of tableSales) {
-        const response = await TableSaleController.getTableSaleById(
+        const tabSale = await TableSaleController.getTableSaleById(
           tableSale.id,
         );
-        if (response) {
-          newTableSales.push(response);
+        if (tabSale && tabSale.data.length > 0) {
+          newTableSales.push(tabSale);
         }
       }
       setTableSales(newTableSales);
     };
-    console.log("data", data);
     if ((data?.table_sales?.length ?? 0) > 0) {
       fetchTableSales(data?.table_sales ?? []);
     }
-  }, [data]);
+  }, [data?.table_sales]);
 
   return {
     tableSales: tableSales,
