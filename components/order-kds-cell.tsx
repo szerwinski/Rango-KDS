@@ -36,10 +36,10 @@ export default function OrderKdsCell({
         })}
         <FB className="w-full gap-2">
           <FB className="w-1/2 rounded-md bg-[red] p-2">
-            <P2 className="text-[white]">Ocultar</P2>
+            <P2 className="text-[white]">Cancelar</P2>
           </FB>
           <FB className="w-1/2 rounded-md bg-[green] p-2">
-            <P2 className="text-[white]">Ocultar</P2>
+            <P2 className="text-[white]">Pronto</P2>
           </FB>
         </FB>
       </FB>
