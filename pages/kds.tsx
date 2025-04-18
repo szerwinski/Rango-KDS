@@ -57,7 +57,7 @@ export default function Kds() {
                       <OrderKdsCell
                         data={tableSale.data}
                         id={tableSale.id}
-                        nomeMesa={tableSale.id.toString()}
+                        nomeMesa={tableSale.table.name}
                       />
                     );
                   })}
