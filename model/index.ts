@@ -214,6 +214,13 @@ export interface TableSale {
   xml: string;
   payment: Payment;
   cashier: Cashier;
+  table: Table;
+}
+
+export interface Table {
+  id: number;
+  isTable: boolean;
+  name: string;
 }
 
 export interface OrderItem {
