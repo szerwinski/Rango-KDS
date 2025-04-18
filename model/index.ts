@@ -221,6 +221,7 @@ export interface OrderItem {
   menu_item: MenuItem;
   ifoodPrice: number;
   note: string;
+  quantity: number;
   options: Option[];
   status: string;
 }
