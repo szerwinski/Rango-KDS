@@ -54,6 +54,7 @@ export type MenuItem = {
   unit: string | null;
   byWeight: boolean | null;
   ncm: string | null;
+  blockPrinting: boolean | null;
   optionsCategories: OptionsCategory[];
   menu_items_category: MenuItemCategory;
 };
