@@ -62,6 +62,7 @@ export default function Kds() {
                   {tableSales?.map((tableSale) => {
                     return (
                       <OrderKdsCell
+                        key={tableSale.id}
                         data={tableSale.data}
                         id={tableSale.id}
                         nomeMesa={tableSale.table.name}
