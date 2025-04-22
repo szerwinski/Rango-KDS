@@ -68,8 +68,13 @@ export const useTableSalesSubscription = (
         const tabSale = await TableSaleController.getTableSaleById(
           tableSale.id,
         );
-        if (tabSale && tabSale.data.length > 0) {
-          newTableSales.push(tabSale);
+        if (tabSale) {
+          tabSale.data = tabSale.data.filter(
+            (e) => e.status == "READY" && !e.menu_item.blockPrinting,
+          );
+          if (tabSale.data.length > 0) {
+            newTableSales.push(tabSale);
+          }
         }
       }
       setTableSales(newTableSales);
