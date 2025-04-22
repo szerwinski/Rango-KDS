@@ -31,7 +31,12 @@ export default function OrderKdsCell({
       >
         {data.map((item, index) => {
           return (
-            <FB fd="row" ha="start" className="w-full gap-2 px-2 py-1">
+            <FB
+              fd="row"
+              ha="start"
+              className="w-full gap-2 px-2 py-1"
+              key={item.id}
+            >
               <P2 className="text-[white]">
                 {item.quantity} x {item.menu_item.name}
               </P2>
