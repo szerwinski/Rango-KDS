@@ -6,6 +6,8 @@
 .pnp.js
 .npmrc
 .env
+.env.local
+.env.production
 
 # testing
 /coverage
