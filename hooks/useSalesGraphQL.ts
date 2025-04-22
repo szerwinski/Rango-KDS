@@ -77,6 +77,9 @@ export const useTableSalesSubscription = (
           }
         }
       }
+      newTableSales.sort((a, b) => {
+        return a.id - b.id;
+      });
       setTableSales(newTableSales);
     };
     if ((data?.table_sales?.length ?? 0) > 0) {
