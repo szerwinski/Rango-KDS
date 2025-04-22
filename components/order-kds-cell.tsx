@@ -6,10 +6,12 @@ export default function OrderKdsCell({
   data,
   id,
   nomeMesa,
+  dispatchItem,
 }: {
   data: OrderItem[];
   id: number;
   nomeMesa: string;
+  dispatchItem: (item: OrderItem) => void;
 }) {
   return (
     <FB fd="column" className="w-full p-2 rounded-xl">
@@ -29,9 +31,19 @@ export default function OrderKdsCell({
       >
         {data.map((item, index) => {
           return (
-            <P2 className="px-2 py-1 text-[white]">
-              {item.quantity} x {item.menu_item.name}
-            </P2>
+            <FB fd="row" ha="start" className="w-full gap-2 px-2 py-1">
+              <P2 className="text-[white]">
+                {item.quantity} x {item.menu_item.name}
+              </P2>
+              <img
+                onClick={() => dispatchItem(item)}
+                src={"/assets/check.svg"}
+                alt={item.menu_item.name + " pronto"}
+                className="ml-2 rounded-md cursor-pointer"
+                height={20}
+                width={20}
+              />
+            </FB>
           );
         })}
         <FB className="w-full gap-2">
