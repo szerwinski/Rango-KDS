@@ -8,7 +8,7 @@ import useUser from "../hooks/useUser";
 export default function Home() {
   var [email, setEmail] = useState("");
   var [password, setPassword] = useState("");
-  var [loginType, setLoginType] = useState<"operator" | "admin">("admin");
+  var [loginType, setLoginType] = useState<"operator" | "admin">("operator");
   useUser();
 
   return (
@@ -18,7 +18,7 @@ export default function Home() {
         hasScreenHeight
         className="items-center justify-center bg-background"
       >
-        <FB fd="column" className="h-full w-full">
+        <FB fd="column" className="w-full h-full">
           <img
             src="/assets/logo_laranja.png"
             alt="Rango Sem Fila Logo"
@@ -28,7 +28,7 @@ export default function Home() {
             fd="column"
             className="mt-10 w-[30%] min-w-[280px] gap-5 rounded-xl bg-background2 px-4 py-10"
           >
-            <FB fd="row" className="gap-3" w="w-full">
+            {/* <FB fd="row" className="gap-3" w="w-full">
               <Button
                 className={classNames(
                   "w-full !rounded-[4px] py-[8px] sm:px-2",
@@ -59,7 +59,7 @@ export default function Home() {
               >
                 Administrador
               </Button>
-            </FB>
+            </FB> */}
             <input
               type="text"
               placeholder="Email"
