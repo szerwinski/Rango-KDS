@@ -4,7 +4,7 @@ import Image from "next/image";
 import useWindowInfo from "../hooks/useWindowInfo";
 import { useState } from "react";
 import classNames from "classnames";
-import { Restaurant } from "../model";
+import { OrderItem, Restaurant } from "../model";
 import axios, { Canceler } from "axios";
 import Button from "../components/buttons/button";
 import Drawer from "../components/drawer";
@@ -13,6 +13,8 @@ import OrderKdsCell from "../components/order-kds-cell";
 import { useTableSalesSubscription } from "../hooks/useSalesGraphQL";
 import useUser from "../hooks/useUser";
 import Loading from "../components/loading";
+import TableSaleController from "../controllers/table-sale";
+import { toast } from "react-toastify";
 
 export default function Kds() {
   const user = useUser();
@@ -49,20 +51,34 @@ export default function Kds() {
                 va="start"
                 className="my-4 h-full w-[calc(100%-40px)] rounded-xl bg-background2 p-8"
               >
-                <FB className="mb-4 gap-2">
+                <FB className="gap-2 mb-4">
                   <H2 className="text-[white]">KDS </H2>
                   <H2 className="!font-normal text-[white]">
                     {" "}
                     (Kitchen Display System)
                   </H2>
                 </FB>
-                <div className="grid w-full grid-cols-4 items-start gap-4">
+                <div className="grid items-start w-full grid-cols-4 gap-4">
                   {tableSales?.map((tableSale) => {
                     return (
                       <OrderKdsCell
                         data={tableSale.data}
                         id={tableSale.id}
                         nomeMesa={tableSale.table.name}
+                        dispatchItem={async (item: OrderItem) => {
+                          // console.log("item", item);
+                          // return;
+                          try {
+                            await TableSaleController.updateOrderItemDispatched(
+                              tableSale.id,
+                              [item.id],
+                            );
+                            console.log("item", item);
+                          } catch (error) {
+                            console.error("error", error);
+                            toast.error("Erro ao atualizar item");
+                          }
+                        }}
                       />
                     );
                   })}
