@@ -17,4 +17,13 @@ export default class TableSaleController {
 
     return null;
   }
+
+  static async updateOrderItemDispatched(
+    tableSaleId: number,
+    itemsDispatched: number[],
+  ) {
+    const URL = API_URL + "table/items-dispatched";
+    const response = await axios.post(URL, { tableSaleId, itemsDispatched });
+    console.log("response", response);
+  }
 }
