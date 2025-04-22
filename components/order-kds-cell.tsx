@@ -12,8 +12,8 @@ export default function OrderKdsCell({
   nomeMesa: string;
 }) {
   return (
-    <FB fd="column" className="w-full rounded-xl p-2">
-      <FB ha="start" className="w-full gap-3 rounded-md bg-primary p-2">
+    <FB fd="column" className="w-full p-2 rounded-xl">
+      <FB ha="start" className="w-full gap-3 p-2 rounded-md bg-primary">
         <FB className="relative">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
           <P1 className="absolute !text-[12px] text-[white]">42m</P1>
@@ -36,7 +36,7 @@ export default function OrderKdsCell({
         })}
         <FB className="w-full gap-2">
           <FB className="w-1/2 rounded-md bg-[red] p-2">
-            <P2 className="text-[white]">Cancelar</P2>
+            <P2 className="text-[white]">Ocultar</P2>
           </FB>
           <FB className="w-1/2 rounded-md bg-[green] p-2">
             <P2 className="text-[white]">Pronto</P2>
