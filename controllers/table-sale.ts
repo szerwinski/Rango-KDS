@@ -1,7 +1,6 @@
 import axios from "axios";
-import { API_URL } from "../global";
 import { TableSale } from "../model";
-
+import { API_URL } from "../global";
 export default class TableSaleController {
   static async getTableSaleById(id: number): Promise<TableSale | null> {
     const URL =
