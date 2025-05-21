@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .absolute-center {
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute
+  }
+}
+:root {
+  --grid-size: 1366px;
+  --dsize: 1366px;
+  --tsize: 768px;
+  --msize: 360px;
+}
+
+@media only screen and (max-width: 1366px) {
+  :root {
+    --grid-size: 768px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :root {
+    --grid-size: 360px;
+  }
+}
+
+button,
+input[type="submit"],
+input[type="reset"] {
+  background: none;
+  color: inherit;
+  border-width: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+* {
+  caret-color: transparent;
+}
+
+/* $color-background: #fff;
+$color-outline: #363636;
+$color-fill: #888; */
+
+html {
+  font-size: 48px;
+}
+
+input, textarea {
+  all: unset;
+  border: 2px solid #414968;
+  padding: 12px;
+  height: 50px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  caret-color: white;
+}
+
+/* input, textarea {
+  caret-color: black;
+} */
+
+
+html,
+body {
+  max-width: 100vw;
+  min-width: 100vw;
+  /* height: 100%; */
+  margin: 0;
+  font-size: 16px;
+  overflow-x: hidden;
+  /* overflow-y: scroll;
+  scroll-snap-type: y proximity; */
+  background: var(--degrade-fundo);
+}
+
+body {
+  /* overflow: unset; */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
