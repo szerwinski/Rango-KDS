@@ -63,20 +63,41 @@ export const useTableSalesSubscription = (
 
   useEffect(() => {
     const fetchTableSales = async (tableSales: TableSaleRaw[]) => {
+      var dismissedTables = JSON.parse(
+        localStorage.getItem("dismissedTables") ?? "[]",
+      );
+
       var newTableSales: TableSale[] = [];
       for (const tableSale of tableSales) {
         const tabSale = await TableSaleController.getTableSaleById(
           tableSale.id,
         );
-        if (tabSale) {
+        const dismissed = dismissedTables.find(
+          (e: any) => e.id === tableSale.id,
+        );
+        if (
+          tabSale &&
+          (!dismissed ||
+            dismissed.data.length <
+              tabSale.data.filter(
+                (e) => e.status == "READY" && !e.menu_item.blockPrinting,
+              ).length)
+        ) {
           tabSale.data = tabSale.data.filter(
             (e) => e.status == "READY" && !e.menu_item.blockPrinting,
           );
+          dismissedTables = dismissedTables.filter(
+            (e: any) => e.id !== tableSale.id,
+          );
+
           if (tabSale.data.length > 0) {
             newTableSales.push(tabSale);
           }
         }
       }
+
+      localStorage.setItem("dismissedTables", JSON.stringify(dismissedTables));
+
       newTableSales.sort((a, b) => {
         return a.id - b.id;
       });
