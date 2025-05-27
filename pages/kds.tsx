@@ -69,16 +69,15 @@ export default function Kds() {
                         data={tableSale.data}
                         id={tableSale.id}
                         nomeMesa={tableSale.table.name}
-                        dispatchItem={async (item: OrderItem) => {
+                        dispatchItem={async (items: OrderItem[]) => {
                           // console.log("item", item);
                           // return;
                           setCellIsLoading(true);
                           try {
                             await TableSaleController.updateOrderItemDispatched(
                               tableSale.id,
-                              [item.id],
+                              items.map((item) => item.id),
                             );
-                            console.log("item", item);
                           } catch (error) {
                             console.error("error", error);
                             toast.error("Erro ao atualizar item");
