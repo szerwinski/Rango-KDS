@@ -22,6 +22,7 @@ export default function OrderKdsCell({
   loading: boolean;
 }) {
   const [isCellLoading, setIsCellLoading] = useState<number | null>(null);
+  const [isOptionsOpen, setIsOptionsOpen] = useState<number | null>(null);
 
   const parseItemRow = (item: OrderItem) => {
     if (item.menu_item.byWeight) {
@@ -30,9 +31,30 @@ export default function OrderKdsCell({
     return `${item.quantity} x ${item.menu_item.name}`;
   };
 
+  function getPlusIcon(index: number) {
+    return (
+      <svg
+        onClick={() =>
+          index === isOptionsOpen
+            ? setIsOptionsOpen(null)
+            : setIsOptionsOpen(index)
+        }
+        className="cursor-pointer"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line x1="10" y1="1" x2="10" y2="19" stroke="white" stroke-width="2" />
+        <line x1="1" y1="10" x2="19" y2="10" stroke="white" stroke-width="2" />
+      </svg>
+    );
+  }
+
   return (
-    <FB fd="column" className="w-full rounded-xl p-2">
-      <FB ha="start" className="w-full gap-3 rounded-md bg-primary p-2">
+    <FB fd="column" className="w-full p-2 rounded-xl">
+      <FB ha="start" className="w-full gap-3 p-2 rounded-md bg-primary">
         <FB className="relative">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
           <P1 className="absolute !text-[12px] text-[white]">42m</P1>
@@ -48,38 +70,39 @@ export default function OrderKdsCell({
       >
         {data.map((item, index) => {
           return (
-            <FB
-              fd="row"
-              ha="start"
-              className="w-full gap-2 px-2 py-1"
-              key={item.id}
-            >
-              <P2 className="mr-4 flex-1 overflow-hidden text-[white]">
-                {parseItemRow(item)}
-              </P2>
-              {isCellLoading === index ? (
-                <div className="h-5 w-5 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
-              ) : (
-                <img
-                  onClick={async () => {
-                    if (loading || isCellLoading) {
-                      toast.error("Já existe um pedido sendo processado");
-                      return;
-                    }
-                    setIsCellLoading(index);
-                    await dispatchItem([item]);
-                    setIsCellLoading(null);
-                  }}
-                  src={"/assets/check.svg"}
-                  alt={item.menu_item.name + " pronto"}
-                  className="ml-2 cursor-pointer rounded-md"
-                  height={20}
-                  width={20}
-                />
-              )}
-              {item.options.length > 0 && (
-                <PlusWithPopup options={item.options} />
-              )}
+            <FB className="px-2 py-1" key={item.id} w="w-full" fd="column">
+              <FB fd="row" ha="start" className="w-full gap-2">
+                <P2 className="mr-4 flex-1 overflow-hidden text-[white]">
+                  {parseItemRow(item)}
+                </P2>
+                {item.options.length > 0 && getPlusIcon(index)}
+                {isCellLoading === index ? (
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
+                ) : (
+                  <img
+                    onClick={async () => {
+                      if (loading || isCellLoading) {
+                        toast.error("Já existe um pedido sendo processado");
+                        return;
+                      }
+                      setIsCellLoading(index);
+                      await dispatchItem([item]);
+                      setIsCellLoading(null);
+                    }}
+                    src={"/assets/check.svg"}
+                    alt={item.menu_item.name + " pronto"}
+                    className="ml-2 rounded-md cursor-pointer"
+                    height={20}
+                    width={20}
+                  />
+                )}
+              </FB>
+              {isOptionsOpen === index &&
+                item.options.map((option) => (
+                  <P2 key={option.id} className="text-[white]">
+                    {option.name}
+                  </P2>
+                ))}
             </FB>
           );
         })}
@@ -109,52 +132,5 @@ export default function OrderKdsCell({
         </FB>
       </FB>
     </FB>
-  );
-}
-
-function PlusWithPopup({ options }: { options: Option[] }) {
-  const [showPopup, setShowPopup] = useState(false);
-  const iconRef = useRef(null);
-
-  const togglePopup = () => setShowPopup((prev) => !prev);
-
-  return (
-    <div className="relative inline-block">
-      <div ref={iconRef} onClick={togglePopup}>
-        <svg
-          className="cursor-pointer"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <line
-            x1="10"
-            y1="1"
-            x2="10"
-            y2="19"
-            stroke="white"
-            stroke-width="2"
-          />
-          <line
-            x1="1"
-            y1="10"
-            x2="19"
-            y2="10"
-            stroke="white"
-            stroke-width="2"
-          />
-        </svg>
-      </div>
-
-      {showPopup && (
-        <div className="absolute bottom-6 z-10 flex h-auto w-[300px] -translate-x-1/2 flex-row rounded bg-[white] p-2">
-          {options.map((option) => {
-            return <OptionalRow option={option} />;
-          })}
-        </div>
-      )}
-    </div>
   );
 }
