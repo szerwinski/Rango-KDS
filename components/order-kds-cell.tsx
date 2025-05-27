@@ -1,24 +1,33 @@
+import { useState } from "react";
 import { OrderItem } from "../model";
 import { FB } from "./base";
 import { P1, P2 } from "./typography";
+import { toast } from "react-toastify";
+import Loading from "./loading";
 
 export default function OrderKdsCell({
   data,
   id,
   nomeMesa,
   dispatchItem,
+  loading = false,
 }: {
   data: OrderItem[];
   id: number;
   nomeMesa: string;
-  dispatchItem: (item: OrderItem) => void;
+  dispatchItem: (item: OrderItem) => Promise<void>;
+  loading: boolean;
 }) {
+  const [isCellLoading, setIsCellLoading] = useState(false);
+
   const parseItemRow = (item: OrderItem) => {
     if (item.menu_item.byWeight) {
       return `${item.quantity / 1000000}kg ${item.menu_item.name}`;
     }
     return `${item.quantity} x ${item.menu_item.name}`;
   };
+
+  console.log("IsCellLoading", isCellLoading);
 
   return (
     <FB fd="column" className="w-full rounded-xl p-2">
@@ -44,15 +53,29 @@ export default function OrderKdsCell({
               className="w-full gap-2 px-2 py-1"
               key={item.id}
             >
-              <P2 className="text-[white]">{parseItemRow(item)}</P2>
-              <img
-                onClick={() => dispatchItem(item)}
-                src={"/assets/check.svg"}
-                alt={item.menu_item.name + " pronto"}
-                className="ml-2 cursor-pointer rounded-md"
-                height={20}
-                width={20}
-              />
+              <P2 className="mr-4 flex-1 overflow-hidden text-[white]">
+                {parseItemRow(item)}
+              </P2>
+              {isCellLoading ? (
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
+              ) : (
+                <img
+                  onClick={async () => {
+                    if (loading || isCellLoading) {
+                      toast.error("Já existe um pedido sendo processado");
+                      return;
+                    }
+                    setIsCellLoading(true);
+                    await dispatchItem(item);
+                    setIsCellLoading(false);
+                  }}
+                  src={"/assets/check.svg"}
+                  alt={item.menu_item.name + " pronto"}
+                  className="ml-2 cursor-pointer rounded-md"
+                  height={20}
+                  width={20}
+                />
+              )}
             </FB>
           );
         })}
