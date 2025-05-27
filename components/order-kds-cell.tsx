@@ -15,10 +15,10 @@ export default function OrderKdsCell({
   data: OrderItem[];
   id: number;
   nomeMesa: string;
-  dispatchItem: (item: OrderItem) => Promise<void>;
+  dispatchItem: (items: OrderItem[]) => Promise<void>;
   loading: boolean;
 }) {
-  const [isCellLoading, setIsCellLoading] = useState(false);
+  const [isCellLoading, setIsCellLoading] = useState<number | null>(null);
 
   const parseItemRow = (item: OrderItem) => {
     if (item.menu_item.byWeight) {
@@ -56,7 +56,7 @@ export default function OrderKdsCell({
               <P2 className="mr-4 flex-1 overflow-hidden text-[white]">
                 {parseItemRow(item)}
               </P2>
-              {isCellLoading ? (
+              {isCellLoading === index ? (
                 <div className="h-5 w-5 animate-spin rounded-full border-2 border-t-0 border-solid border-[white]" />
               ) : (
                 <img
@@ -65,9 +65,9 @@ export default function OrderKdsCell({
                       toast.error("Já existe um pedido sendo processado");
                       return;
                     }
-                    setIsCellLoading(true);
-                    await dispatchItem(item);
-                    setIsCellLoading(false);
+                    setIsCellLoading(index);
+                    await dispatchItem([item]);
+                    setIsCellLoading(null);
                   }}
                   src={"/assets/check.svg"}
                   alt={item.menu_item.name + " pronto"}
@@ -83,7 +83,18 @@ export default function OrderKdsCell({
           <FB className="w-1/2 rounded-md bg-[red] p-2">
             <P2 className="text-[white]">Ocultar</P2>
           </FB>
-          <FB className="w-1/2 rounded-md bg-[green] p-2">
+          <FB
+            className="w-1/2 cursor-pointer rounded-md bg-[green] p-2"
+            onClick={async () => {
+              if (isCellLoading || loading) {
+                toast.error("Já existe um pedido sendo processado");
+                return;
+              }
+              setIsCellLoading(10000);
+              await dispatchItem(data);
+              setIsCellLoading(null);
+            }}
+          >
             <P2 className="text-[white]">Pronto</P2>
           </FB>
         </FB>
