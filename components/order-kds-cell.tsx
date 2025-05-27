@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { OrderItem } from "../model";
+import { useRef, useState } from "react";
+import { Option, OrderItem } from "../model";
 import { FB } from "./base";
 import { P1, P2 } from "./typography";
 import { toast } from "react-toastify";
 import Loading from "./loading";
+import OptionalRow from "./optional-row";
 
 export default function OrderKdsCell({
   data,
@@ -76,6 +77,9 @@ export default function OrderKdsCell({
                   width={20}
                 />
               )}
+              {item.options.length > 0 && (
+                <PlusWithPopup options={item.options} />
+              )}
             </FB>
           );
         })}
@@ -105,5 +109,52 @@ export default function OrderKdsCell({
         </FB>
       </FB>
     </FB>
+  );
+}
+
+function PlusWithPopup({ options }: { options: Option[] }) {
+  const [showPopup, setShowPopup] = useState(false);
+  const iconRef = useRef(null);
+
+  const togglePopup = () => setShowPopup((prev) => !prev);
+
+  return (
+    <div className="relative inline-block">
+      <div ref={iconRef} onClick={togglePopup}>
+        <svg
+          className="cursor-pointer"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <line
+            x1="10"
+            y1="1"
+            x2="10"
+            y2="19"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="1"
+            y1="10"
+            x2="19"
+            y2="10"
+            stroke="white"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+
+      {showPopup && (
+        <div className="absolute bottom-6 z-10 flex h-auto w-[300px] -translate-x-1/2 flex-row rounded bg-[white] p-2">
+          {options.map((option) => {
+            return <OptionalRow option={option} />;
+          })}
+        </div>
+      )}
+    </div>
   );
 }
