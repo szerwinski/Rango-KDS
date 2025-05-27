@@ -100,7 +100,9 @@ export default function OrderKdsCell({
               {isOptionsOpen === index &&
                 item.options.map((option) => (
                   <P2 key={option.id} className="text-[white]">
-                    {option.name}
+                    {((option.quantity ?? 0) > 1
+                      ? `${option.quantity}x `
+                      : "") + option.name}
                   </P2>
                 ))}
             </FB>
