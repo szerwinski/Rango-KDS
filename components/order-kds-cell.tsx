@@ -10,12 +10,14 @@ export default function OrderKdsCell({
   id,
   nomeMesa,
   dispatchItem,
+  dismissTable,
   loading = false,
 }: {
   data: OrderItem[];
   id: number;
   nomeMesa: string;
   dispatchItem: (items: OrderItem[]) => Promise<void>;
+  dismissTable: () => void;
   loading: boolean;
 }) {
   const [isCellLoading, setIsCellLoading] = useState<number | null>(null);
@@ -26,8 +28,6 @@ export default function OrderKdsCell({
     }
     return `${item.quantity} x ${item.menu_item.name}`;
   };
-
-  console.log("IsCellLoading", isCellLoading);
 
   return (
     <FB fd="column" className="w-full rounded-xl p-2">
@@ -80,7 +80,12 @@ export default function OrderKdsCell({
           );
         })}
         <FB className="w-full gap-2">
-          <FB className="w-1/2 rounded-md bg-[red] p-2">
+          <FB
+            className="w-1/2 cursor-pointer rounded-md bg-[red] p-2"
+            onClick={() => {
+              dismissTable();
+            }}
+          >
             <P2 className="text-[white]">Ocultar</P2>
           </FB>
           <FB
