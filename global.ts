@@ -7,10 +7,6 @@ const HASURA_URL_HOMOLOG = process.env.NEXT_PUBLIC_HASURA_URL_HOMOLOG || "";
 const HASURA_SECRET = process.env.NEXT_PUBLIC_HASURA_SECRET || "";
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-console.log("HASURA_URL_HOMOLOG", HASURA_URL_HOMOLOG);
-console.log("HASURA_SECRET", HASURA_SECRET);
-console.log("API_URL", API_URL);
-
 const httpLink = new HttpLink({
   uri: "https://" + HASURA_URL_HOMOLOG,
   headers: {
