@@ -226,6 +226,7 @@ export interface Table {
 
 export interface OrderItem {
   id: number;
+  uuid: string
   menu_item: MenuItem;
   ifoodPrice: number;
   note: string;

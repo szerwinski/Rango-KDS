@@ -19,24 +19,42 @@ import { toast } from "react-toastify";
 export default function Kds() {
   const [dismissedTables, setDismissedTables] = useState<TableSale[]>([]);
   const user = useUser();
+
+  const { tableSales, loading } = useTableSalesSubscription(
+    user?.restaurant.id ?? 0,
+    getUpdatedAt(),
+  ) || { tableSales: null, loading: true };
+
+  useEffect(() => {
+    const savedDismissedTables = localStorage.getItem("dismissedTables");
+    if (savedDismissedTables) {
+      const parsedTables = JSON.parse(savedDismissedTables);
+      setDismissedTables(parsedTables);
+    }
+  }, [tableSales]);
+
   function getUpdatedAt() {
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     return today.toISOString();
   }
-  const { tableSales, loading } = useTableSalesSubscription(
-    user?.restaurant.id ?? 0,
-    getUpdatedAt(),
-  );
-
-  useEffect(() => {
-    const dismissedTables = JSON.parse(
-      localStorage.getItem("dismissedTables") ?? "[]",
-    );
-    setDismissedTables(dismissedTables);
-  }, [tableSales, dismissedTables]);
 
   const [cellIsLoading, setCellIsLoading] = useState<boolean>(false);
+
+  const handleDispatchItem = async (items: OrderItem[], tableSaleId: number) => {
+    setCellIsLoading(true);
+    try {
+      await TableSaleController.updateOrderItemDispatched(
+        tableSaleId,
+        items.map((item) => item.id),
+      );
+    } catch (error) {
+      console.error("error", error);
+      toast.error("Erro ao atualizar item");
+    } finally {
+      setCellIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -68,7 +86,8 @@ export default function Kds() {
                     (Kitchen Display System)
                   </H2>
                 </FB>
-                <div className="grid w-full grid-cols-4 items-start gap-4">
+                {/* Grid responsivo: 1 coluna em mobile, 2 em md, 3 em lg, 4 em xl */}
+                <div className="grid w-full grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start gap-4">
                   {tableSales
                     ?.filter((tableSale) => {
                       return !dismissedTables.find((e) => e.id == tableSale.id);
@@ -86,25 +105,10 @@ export default function Kds() {
                               "dismissedTables",
                               JSON.stringify([...dismissedTables, tableSale]),
                             );
-
                             setDismissedTables([...dismissedTables, tableSale]);
                           }}
-                          dispatchItem={async (items: OrderItem[]) => {
-                            // console.log("item", item);
-                            // return;
-                            setCellIsLoading(true);
-                            try {
-                              await TableSaleController.updateOrderItemDispatched(
-                                tableSale.id,
-                                items.map((item) => item.id),
-                              );
-                            } catch (error) {
-                              console.error("error", error);
-                              toast.error("Erro ao atualizar item");
-                            } finally {
-                              setCellIsLoading(false);
-                            }
-                          }}
+                          dispatchItem={(items) => handleDispatchItem(items, tableSale.id)}
+                          updatedAt={tableSale.updatedAt}
                         />
                       );
                     })}
